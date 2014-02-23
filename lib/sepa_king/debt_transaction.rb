@@ -14,5 +14,14 @@ module SEPA
       raise ArgumentError.new('Mandate Date of Signature is in the future') if value > Date.today
       @mandate_date_of_signature = value
     end
+
+    def sequence_type=(value)
+      raise ArgumentError.new('Sequence Type is unknown') unless %w(FRST OOFF RCUR FNAL).include?(value)
+      @sequence_type = value
+    end
+
+    def sequence_type
+      @sequence_type || 'OOFF'
+    end
   end
 end

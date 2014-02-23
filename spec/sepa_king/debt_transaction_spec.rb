@@ -11,7 +11,8 @@ describe SEPA::DebtTransaction do
                                 :reference                 => 'XYZ-1234/123',
                                 :remittance_information    => 'Vielen Dank für Ihren Einkauf!',
                                 :mandate_id                => 'K-02-2011-12345',
-                                :mandate_date_of_signature => Date.new(2011,1,25)
+                                :mandate_date_of_signature => Date.new(2011,1,25),
+                                :sequence_type             => 'FRST'
     }.should_not raise_error
   end
 
@@ -47,6 +48,29 @@ describe SEPA::DebtTransaction do
         lambda {
           SEPA::DebtTransaction.new :mandate_id => invalid_value
         }.should raise_error(ArgumentError, /Mandate ID/)
+      end
+    end
+  end
+
+  context 'Sequence Type' do
+    it 'return OOFF as default' do
+      transaction = SEPA::DebtTransaction.new :name => 'Zahlemann & Söhne Gbr'
+      transaction.sequence_type.should == 'OOFF'
+    end
+
+    it 'should allow valid value' do
+      %w(FRST OOFF RCUR FNAL).each do |valid_value|
+        lambda {
+          SEPA::DebtTransaction.new :sequence_type => valid_value
+        }.should_not raise_error
+      end
+    end
+
+    it 'should not allow invalid value' do
+      [ nil, '', 'X' * 4 ].each do |invalid_value|
+        lambda {
+          SEPA::DebtTransaction.new :sequence_type => invalid_value
+        }.should raise_error(ArgumentError, /Sequence Type/)
       end
     end
   end

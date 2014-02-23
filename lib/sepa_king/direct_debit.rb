@@ -30,73 +30,75 @@ module SEPA
             end
           end
 
-          builder.PmtInf do
-            builder.PmtInfId(payment_information_identification)
-            builder.PmtMtd('DD')
-            builder.PmtTpInf do
-              builder.SvcLvl do
-                builder.Cd('SEPA')
+          grouped_transactions.each do |sequence_type, transactions|
+            builder.PmtInf do
+              builder.PmtInfId(payment_information_identification)
+              builder.PmtMtd('DD')
+              builder.PmtTpInf do
+                builder.SvcLvl do
+                  builder.Cd('SEPA')
+                end
+                builder.LclInstrm do
+                  builder.Cd('CORE')
+                end
+                builder.SeqTp(sequence_type)
               end
-              builder.LclInstrm do
-                builder.Cd('CORE')
+              builder.ReqdColltnDt(Date.today.next.iso8601)
+              builder.Cdtr do
+                builder.Nm(creditor.name)
               end
-              builder.SeqTp('OOFF')
-            end
-            builder.ReqdColltnDt(Date.today.next.iso8601)
-            builder.Cdtr do
-              builder.Nm(creditor.name)
-            end
-            builder.CdtrAcct do
-              builder.Id do
-                builder.IBAN(creditor.iban)
+              builder.CdtrAcct do
+                builder.Id do
+                  builder.IBAN(creditor.iban)
+                end
               end
-            end
-            builder.CdtrAgt do
-              builder.FinInstnId do
-                builder.BIC(creditor.bic)
+              builder.CdtrAgt do
+                builder.FinInstnId do
+                  builder.BIC(creditor.bic)
+                end
               end
-            end
-            builder.ChrgBr('SLEV')
-            builder.CdtrSchmeId do
-              builder.Id do
-                builder.PrvtId do
-                  builder.Othr do
-                    builder.Id(creditor.identifier)
-                    builder.SchmeNm do
-                      builder.Prtry('SEPA')
+              builder.ChrgBr('SLEV')
+              builder.CdtrSchmeId do
+                builder.Id do
+                  builder.PrvtId do
+                    builder.Othr do
+                      builder.Id(creditor.identifier)
+                      builder.SchmeNm do
+                        builder.Prtry('SEPA')
+                      end
                     end
                   end
                 end
               end
-            end
-            transactions.each do |transaction|
-              builder.DrctDbtTxInf do
-                builder.PmtId do
-                  builder.EndToEndId(transaction.reference || 'NOTPROVIDED')
-                end
-                builder.InstdAmt(transaction.amount, :Ccy => 'EUR')
-                builder.DrctDbtTx do
-                  builder.MndtRltdInf do
-                    builder.MndtId(transaction.mandate_id)
-                    builder.DtOfSgntr(transaction.mandate_date_of_signature.iso8601)
+              transactions.each do |transaction|
+                builder.DrctDbtTxInf do
+                  builder.PmtId do
+                    builder.EndToEndId(transaction.reference || 'NOTPROVIDED')
                   end
-                end
-                builder.DbtrAgt do
-                  builder.FinInstnId do
-                    builder.BIC(transaction.bic)
+                  builder.InstdAmt(transaction.amount, :Ccy => 'EUR')
+                  builder.DrctDbtTx do
+                    builder.MndtRltdInf do
+                      builder.MndtId(transaction.mandate_id)
+                      builder.DtOfSgntr(transaction.mandate_date_of_signature.iso8601)
+                    end
                   end
-                end
-                builder.Dbtr do
-                  builder.Nm(transaction.name)
-                end
-                builder.DbtrAcct do
-                  builder.Id do
-                    builder.IBAN(transaction.iban)
+                  builder.DbtrAgt do
+                    builder.FinInstnId do
+                      builder.BIC(transaction.bic)
+                    end
                   end
-                end
-                if transaction.remittance_information
-                  builder.RmtInf do
-                    builder.Ustrd(transaction.remittance_information)
+                  builder.Dbtr do
+                    builder.Nm(transaction.name)
+                  end
+                  builder.DbtrAcct do
+                    builder.Id do
+                      builder.IBAN(transaction.iban)
+                    end
+                  end
+                  if transaction.remittance_information
+                    builder.RmtInf do
+                      builder.Ustrd(transaction.remittance_information)
+                    end
                   end
                 end
               end
@@ -117,6 +119,10 @@ module SEPA
 
     def payment_information_identification
       message_identification
+    end
+
+    def grouped_transactions
+      transactions.group_by(&:sequence_type)
     end
   end
 end

@@ -41,7 +41,9 @@ dd.add_transaction :name                      => 'Zahlemann & Söhne GbR',
                    :reference                 => 'XYZ/2013-08-ABO/6789',
                    :remittance_information    => 'Vielen Dank für Ihren Einkauf!',
                    :mandate_id                => 'K-02-2011-12345',
-                   :mandate_date_of_signature => Date.new(2011,1,25)
+                   :mandate_date_of_signature => Date.new(2011,1,25),
+                   :sequence_type             => 'OOFF' # 'OOFF', 'FRST', 'RCUR', 'FNAL'
+
 dd.add_transaction ...
 
 # Last: create XML string

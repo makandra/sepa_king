@@ -15,7 +15,8 @@ describe SEPA::DirectDebit do
                        :reference                 => 'XYZ/2013-08-ABO/12345',
                        :remittance_information    => 'Unsere Rechnung vom 10.08.2013',
                        :mandate_id                => 'K-02-2011-12345',
-                       :mandate_date_of_signature => Date.new(2011,1,25)
+                       :mandate_date_of_signature => Date.new(2011,1,25),
+                       :sequence_type             => 'OOFF'
 
     dd.add_transaction :name                      => 'Meier & Schulze oHG',
                        :bic                       => 'GENODEF1JEV',
@@ -24,7 +25,8 @@ describe SEPA::DirectDebit do
                        :reference                 => 'XYZ/2013-08-ABO/6789',
                        :remittance_information    => 'Vielen Dank für Ihren Einkauf!',
                        :mandate_id                => 'K-08-2010-42123',
-                       :mandate_date_of_signature => Date.new(2010,7,25)
+                       :mandate_date_of_signature => Date.new(2010,7,25),
+                       :sequence_type             => 'FRST'
 
     XML::Document.string(dd.to_xml).should validate_against('pain.008.002.02.xsd')
   end

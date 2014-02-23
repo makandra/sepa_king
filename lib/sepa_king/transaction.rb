@@ -32,7 +32,8 @@ module SEPA
       raise ArgumentError.new('Amount is not a number') unless value.is_a?(Numeric)
       raise ArgumentError.new('Amount cannot be zero') if value.zero?
       raise ArgumentError.new('Amount cannot be negative') if value < 0
-      raise ArgumentError.new('Amount has more than 2 digits') if value.round(2) != value
+      rounded_amount = (value*100).round / 100.0
+      raise ArgumentError.new('Amount has more than 2 digits') if rounded_amount != value
       @amount = value
     end
 
