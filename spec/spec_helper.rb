@@ -3,10 +3,10 @@
 # Require this file using `require "spec_helper"` to ensure that it is only
 # loaded once.
 
-require 'simplecov'
-require 'coveralls'
-SimpleCov.formatter = Coveralls::SimpleCov::Formatter
-SimpleCov.start
+# require 'simplecov'
+# require 'coveralls'
+# SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+# SimpleCov.start
 
 require 'ostruct'
 require 'xml'
