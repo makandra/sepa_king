@@ -43,7 +43,7 @@ module SEPA
                 end
                 builder.SeqTp(sequence_type)
               end
-              builder.ReqdColltnDt(Date.today.next.iso8601)
+              builder.ReqdColltnDt(Date.today.next.to_s)
               builder.Cdtr do
                 builder.Nm(creditor.name)
               end
@@ -79,7 +79,7 @@ module SEPA
                   builder.DrctDbtTx do
                     builder.MndtRltdInf do
                       builder.MndtId(transaction.mandate_id)
-                      builder.DtOfSgntr(transaction.mandate_date_of_signature.iso8601)
+                      builder.DtOfSgntr(transaction.mandate_date_of_signature.to_s)
                     end
                   end
                   builder.DbtrAgt do
