@@ -1,28 +1,22 @@
-# Handle SEPA like a king
+# SEPA King (*Ruby 1.8.7 backport*)
 
-[![Build Status](https://secure.travis-ci.org/salesking/sepa_king.png)](http://travis-ci.org/salesking/sepa_king)
-[![Code Climate](https://codeclimate.com/github/salesking/sepa_king.png)](https://codeclimate.com/github/salesking/sepa_king)
-[![Coverage Status](https://coveralls.io/repos/salesking/sepa_king/badge.png)](https://coveralls.io/r/salesking/sepa_king)
+### About this fork
 
-We love building payment applications! So after developing the [DTAUS library for Ruby](https://github.com/salesking/king_dtaus) we move on with SEPA!
+This is a fork which backports [`sepa_king`](https://github.com/salesking/sepa_king) to work on Ruby 1.8.7.
 
-This is just the beginning. There is still a lot to do. Please stay tuned...
-
-
-## Features
+### Features
 
 * Credit transfer (pain.001.002.03)
 * Debit transfer (pain.008.002.02)
-* 100% test coverage to ensure software quality
-* Tested with Ruby 1.9.3 and 2.0.0
+* Tested with Ruby 1.8.7
 
+### Installation
 
-## Installation
+Include this git source in your `Gemfile`:
 
-    gem install sepa_king
+    gem 'sepa_king', :git => 'https://github.com/makandra/sepa_king.git', :branch => 'ruby_1_8_7'
 
-
-## Examples
+### Examples
 
 How to create a SEPA file for direct debit ("Lastschrift")
 
@@ -75,19 +69,11 @@ xml_string = ct.to_xml
 Make sure to read the code and the specs!
 
 
-## Changelog
-
-https://github.com/salesking/sepa_king/releases
-
-
-## Resources
-
-* http://www.ebics.de/index.php?id=77
-* SalesKing: http://salesking.eu
-
-
-## License
+### License
 
 Released under the MIT license
 
-Copyright (c) 2013 Georg Leciejewski (SalesKing), Georg Ledermann (https://github.com/ledermann)
+### Credits
+
+* [Original code](https://github.com/salesking/sepa_king) by Georg Leciejewski and Georg Ledermann at SalesKing
+* This fork has been backported to support Ruby 1.8.7 by [makandra](http://www.makandra.com/) / [Ruby Backports](http://rubybackports.com/)
