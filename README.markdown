@@ -4,6 +4,8 @@
 
 This is a fork which backports [`sepa_king`](https://github.com/salesking/sepa_king) to work on Ruby 1.8.7.
 
+Backport by [Ruby Backports](http://rubybackports.com)
+
 ### Features
 
 * Credit transfer (pain.001.002.03)
